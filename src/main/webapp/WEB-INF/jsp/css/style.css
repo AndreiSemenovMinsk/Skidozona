@@ -1,0 +1,306 @@
+body  {
+	font-size:12px;
+	font-family:Arial, Helvetica, sans-serif;
+	background: #ffffff url(../images/bodyBackground.jpg) left top repeat-x;
+	margin: 0; /* it's good practice to zero the margin and padding of the body element to account for differing browser defaults */
+	padding: 0;
+	text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
+	color: #000000;
+}
+h3 {
+	background: url(../images/titleBackground.jpg) left top;
+	height:31px;
+	color:#FFFFFF;
+	padding:7px 5px;
+	margin:8px 0;
+}
+.pic {
+	float:right;
+	margin:0 0 10px 10px;
+}
+.stretcher p {
+	margin:5px;
+}
+
+
+#container {
+	width: 80%;  /* using 20px less than a full 800px width allows for browser chrome and avoids a horizontal scroll bar */
+	background: #FFFFFF;
+	margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
+	border-left: 7px solid #fff;
+	border-right: 7px solid #fff;
+	text-align: left; /* this overrides the text-align: center on the body element. */
+}
+#header {
+	background: #DDDDDD url(../images/headerBackground.jpg);
+	width:100%;
+	height:428px;
+}
+#header h1 {
+	color:#fff;
+	margin: 0 20px; /* zeroing the margin of the last element in the #header div will avoid margin collapse - an unexplainable space between divs. If the div has a border around it, this is not necessary as that also avoids the margin collapse */
+	padding: 10px 0; /* using padding instead of margin will allow you to keep the element away from the edges of the div */
+}
+#header span {
+	margin:0 20px;
+	color:#fff;
+}
+#sidebar1 {
+	float: left; /* since this element is floated, a width must be given */
+	width: 200px; /* the actual width of this div, in standards-compliant browsers, or standards mode in Internet Explorer will include the padding and border in addition to the width */
+	background: #faffeb; /* the background color will be displayed for the length of the content in the column, but no further */
+	padding: 10px;
+	margin:5px 0;
+	border:1px solid #c2d788;
+}
+#mainContent {
+	margin: 5px 0 5px 220px; /* the left margin on this div element creates the column down the left side of the page - no matter how much content the sidebar1 div contains, the column space will remain. You can remove this margin if you want the #mainContent div's text to fill the #sidebar1 space when the content in #sidebar1 ends. */
+	padding: 0 0 5px 10px; /* remember that padding is the space inside the div box and margin is the space outside the div box */
+}
+#content {
+	border:1px solid #4d81c2;
+	padding:5px;
+
+}
+#footer {
+	background:#DDDDDD url(../images/footerBackground.jpg) left top repeat-x;
+	height:92px;
+	text-align:center;
+	font-size:10px;
+}
+#footer a {
+	color:#FFFFFF;
+}
+#footer p {
+	margin: 0; /* zeroing the margins of the first element in the footer will avoid the possibility of margin collapse - a space between divs */
+	padding: 30px 0; /* padding on this element will create space, just as the the margin would have, without the margin collapse issue */
+}
+.clearfloat { /* this class should be placed on a div or break element and should be the final element before the close of a container that should fully contain a float */
+	clear:both;
+    height:0;
+    font-size: 1px;
+    line-height: 0px;
+}
+
+
+#mainMenu {
+	width: 200px;
+}
+#mainMenu .tab {
+	margin:3px 0;
+
+}
+#mainMenu h3 {
+	margin:0;
+	padding:0;
+}
+#mainMenu ul {
+	margin-left: 0;
+	padding-left: 0;
+	list-style-type: none;
+}
+#mainMenu a {
+	display: block;
+	padding: 3px;
+	width: 195px;
+	background-color: #79D43A;
+}
+#mainMenu a:link, #navlist a:visited {
+	color: #EEE;
+	text-decoration: none;
+}
+#mainMenu a:hover {
+	background-color: #79D43A;
+	color: #000;
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+
+html {
+  
+/* background: linear-gradient(-45deg, #dfbd9a, #aa7281, #102158);
+ */
+ font-family: sans-serif;
+  height: 100%;
+  width: 100%;
+}
+
+
+header {
+  text-align: center;
+  margin:80px 0 0 0;
+}
+
+header a {
+  color: inherit;
+  font-weight: bold;
+}
+
+
+h2, .h2 {
+  color: #fff;
+  display: inline-block;
+  font-size: 20px;
+  margin-top: 50px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+
+
+form {
+  margin: 45px auto;
+  position: relative;
+  transform-style: preserve-3d;
+  width: 80%;
+}
+
+
+
+.back-visible
+.front-sign-in {
+  transform: rotateX(180deg);
+}
+
+.back-visible
+.back-sign-up {
+  transform: rotateX(0deg);
+}
+
+
+
+.front-sign-in, .back-sign-up {
+  background-color: rgba(245, 246, 247, 0.9);
+  backface-visibility: hidden;
+  -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.65), inset 0 1px white, inset 0 0 1px white;
+  -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.65), inset 0 1px white, inset 0 0 1px white;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.65), inset 0 1px white, inset 0 0 1px white;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  height: 75px;
+  left: 0;
+  padding-top: 9px;
+  position: absolute;
+  top: 0;
+  width: 80%;
+  -webkit-transition: -webkit-transform 0.6s;
+  -moz-transition: -moz-transform 0.6s;
+  -o-transition: -o-transform 0.6s;
+  transition: transform 0.6s;
+}
+
+
+.back-sign-up {
+  transform: rotateX(0deg);
+}
+
+
+
+input[type="text"], input[type="password"]
+{
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  background-color: #f5f6f7;
+  -webkit-box-shadow: 0 1px white, inset 0 2px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 1px white, inset 0 2px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px white, inset 0 2px 2px rgba(0, 0, 0, 0.1);
+  border: 1px solid #b1b3b8;
+  font-size: 18px;
+   margin-left: 12px;
+  padding-left: 12px;
+
+}
+
+input[type="text"]:focus, input[type="password"]:focus
+{
+  outline: none;
+}
+
+
+input[type="submit"]
+{
+  -webkit-border-radius: 0 4px 4px 0;
+  -moz-border-radius: 0 4px 4px 0;
+  -ms-border-radius: 0 4px 4px 0;
+  -o-border-radius: 0 4px 4px 0;
+  border-radius: 0 4px 4px 0;
+  background-color: #f60;
+  border: 0;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+
+  padding: 0 12px;
+  position: absolute;
+  text-transform: uppercase;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.54);
+  z-index: -1;
+}
+
+
+
+.signin-submit {
+  right: -80px;
+}
+
+.signup-submit
+{
+  right: -145px;
+}
+
+.signup-submit:hover, .signin-submit:hover {text-shadow: 0 0 1px #fff;}
+
+/* Стили бара vladmaxi, можно удалить */
+.vladmaxi-top{
+	line-height: 24px;
+	font-size: 11px;
+	background: #eee;
+	text-transform: uppercase;
+	z-index: 9999;
+	position: fixed;
+	top:0;
+	left:0;
+	width:100%;
+	font-family: calibri;
+	font-size: 13px;
+	box-shadow: 1px 0px 2px rgba(0,0,0,0.2);
+	-webkit-animation: slideOut 0.5s ease-in-out 0.3s backwards;
+}
+@-webkit-keyframes slideOut{
+	0%{top:-30px; opacity: 0;}
+	100%{top:0px; opacity: 1;}
+}
+
+.vladmaxi-top a{
+	padding: 0px 10px;
+	letter-spacing: 1px;
+	color: #333;
+	text-shadow: 0px 1px 1px #fff;
+	display: block;
+	float: left;
+	text-decoration:none;
+}
+.vladmaxi-top a:hover{
+	background: #fff;
+}
+
+.vladmaxi-top span.right{
+	float: right;
+}
+.vladmaxi-top span.right a{
+	float: left;
+	display: block;
+}

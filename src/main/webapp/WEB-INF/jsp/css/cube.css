@@ -1,0 +1,160 @@
+@charset "UTF-8";
+.rot_text {
+			-webkit-transform: rotate(-45deg); //Chrome, Safari
+			-moz-transform: rotate(-45deg); //Firefox
+			-o-transform: rotate(-45deg); //Opera
+			-ms-transform: rotate(-45deg); //IE
+			transform: rotate(-45deg); //браузеры без префексов
+		  }
+	#experiment_sto {set
+	  -webkit-perspective: 780000;     /*8 6200 + 800*/
+	  -webkit-perspective-origin: 30% 200px;
+	}
+	#experiment_str {
+	  -webkit-perspective: 780000;     /*8 6200 + 800*/
+	  -webkit-perspective-origin: 30% 200px;
+       top: 200px;
+	}
+	.experiment_small {
+	  -webkit-perspective: 780000;
+	  -webkit-perspective-origin: 30% 200px;
+       top: 200px;
+	}
+	.experiment_sto_small {
+	  -webkit-perspective: 780000;
+	  -webkit-perspective-origin: 30% 200px;
+       top: 200px;
+	}
+
+
+
+div.menu_sto {
+	  	background-color: RGB(255, 151, 56);
+		color: black;
+	}
+
+div.menu_sto_small {
+	  	background-color: RGB(149, 101, 216);
+		color: black;
+	}
+
+
+	#cube_sto {
+	  position: relative;
+	  margin: 10px auto 0;
+	  height: 100px;/*40%;*/ /*400px;*/
+	  width: 1000px;/*80%;*/ /*800px;*/ /*400*/
+	  left: 0%;
+	  -webkit-transition: -webkit-transform 0.1s linear;
+	  -webkit-transform-style: preserve-3d;
+	  -webkit-transition-duration:800ms;
+-webkit-transition-timing-function:ease;
+/*-webkit-font-smoothing: antialiased;
+    */
+	}
+	#cube_str {
+	  position: relative;
+	  margin: 50px auto 0;
+	  height: 1200px;/*40%;*/ /*400px;*/
+	  width: 1200px;/*80%;*/ /*800px;*/ /*400*/
+	  left: 0%; //-30%
+	  -webkit-transition: -webkit-transform 0.1s linear;
+	  -webkit-transform-style: preserve-3d;
+	  -webkit-transition-duration:800ms;   		// 800ms;
+-webkit-transition-timing-function:ease;
+	}
+	.cube_small {
+	  position: relative;
+	  margin: 10px auto 0;
+	  height: 600px;/*40%;*/ /*400px;*/
+	  width: 600px;/*80%;*/ /*800px;*/ /*400*/
+	  left: 0%;
+	  -webkit-transition: -webkit-transform 0.1s linear;
+	  -webkit-transform-style: preserve-3d;
+	  -webkit-transition-duration:800ms;
+-webkit-transition-timing-function:ease;
+	}
+	.cube_sto_small {
+	  position: relative;
+	  margin: 10px auto 0;
+	  height: 50px;/*40%;*/ /*400px;*/
+	  width: 600px;/*80%;*/ /*800px;*/ /*400*/
+	  left: 0%;
+	  -webkit-transition: -webkit-transform 0.1s linear;
+	  -webkit-transform-style: preserve-3d;
+	  -webkit-transition-duration:800ms;
+-webkit-transition-timing-function:ease;
+	}
+    .face_str {
+	  position: absolute;
+	  height: 100%;
+	  width: 100%;   //220   /*360*//*720*/
+	  padding: 20px;
+	  background-color: rgba(50, 50, 50, 0.9);
+	  font-size: 27px;
+	  line-height: 1em;
+	  color: #fff;
+	  border: 1px solid #555;
+	  border-radius: 3px;
+	}
+	.face_sto {
+	  position: absolute;
+	  height: 100%;
+	  width: 100%;   //220   /*360*//*720*/
+	  padding: 20px;
+	  background-color: rgba(250, 250, 100, 0.9);
+	  font-size: 27px;
+	  line-height: 1em;
+	  color: #000;
+	  border: 1px solid #555;
+	  border-radius: 3px;
+	}
+	.face_small {
+	  position: absolute;
+	  height: 100%;
+	  width: 100%;   //220   /*360*//*720*/
+	  padding: 20px;
+	  background-color: rgba(250, 250, 250, 0.9);
+	  font-size: 27px;
+	  line-height: 1em;
+	  color: #fff;
+	  border: 1px solid #555;
+	  border-radius: 3px;
+	}
+	.face_sto_small {
+	  position: absolute;
+	  height: 100%;
+	  width: 100%;   //220   /*360*//*720*/
+	  padding: 20px;
+	  background-color: rgba(250, 220, 140, 0.9);
+	  font-size: 27px;
+	  line-height: 1em;
+	  color: #fff;
+	  border: 1px solid #555;
+	  border-radius: 3px;
+	}
+	#cube_sto .one_sto  {  /*#cube_sto */
+	  -webkit-transform: rotateX(90deg) translateZ(120px);
+	}
+	#cube_sto .two_sto {
+	  -webkit-transform: translateZ(120px);
+	}
+	#cube_sto .three_sto {
+	  -webkit-transform: rotateY(90deg) translateZ(120px);
+	}
+	#cube_sto .four_sto {
+	  -webkit-transform: rotateY(180deg) rotateZ(-180deg) translateZ(120px);
+	}
+	#cube_sto .five_sto {
+	  -webkit-transform: rotateY(-90deg) translateZ(120px);
+	}
+	#cube_sto .six_sto {
+	  -webkit-transform: rotateX(-90deg) rotateZ(-180deg) rotate(180deg) translateZ(120px);
+	}
+
+
+
+
+.hide {
+		display: none;
+}
