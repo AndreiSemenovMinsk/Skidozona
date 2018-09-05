@@ -55,7 +55,7 @@
   <servlet>
     <display-name>FileUploadServlet</display-name>
     <servlet-name>FileUploadServlet</servlet-name>
-    <servlet-class>by.eximer.library.controller.impl.FileUploadServlet</servlet-class>
+    <servlet-class>by.eximer.library.controller.impl.admin.FileUploadServlet</servlet-class>
   </servlet>
    
   <servlet-mapping>

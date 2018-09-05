@@ -43,7 +43,9 @@ private static final String ID_TYPE_PARAM_NAME = "id_type";
 		try {
 			String sessionId = SessionIdFactory.getSessionId();
 			
-			user = userService.addProductType(Integer.parseInt(sessionId), Integer.parseInt(idProduct),  Integer.parseInt(idType));
+			System.out.println(idProduct);
+			System.out.println(idType);
+			user = userService.addProductType(Integer.parseInt(sessionId), Integer.parseInt(idProduct),  idType);
 			if (user.getSuccess()) {
 				response.getWriter().print("0");
 			}	else {

@@ -32,9 +32,6 @@ import by.eximer.library.service.exeption.ServiceException;
 public class ProductTypes implements Command {
 	private static final String ID_PRODUCT = "id_product";
 	
-	public ArrayList<ArrayList<String>> productTypes;
-	public int id;
-	
 		@Override
 		public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
@@ -51,9 +48,8 @@ public class ProductTypes implements Command {
 					String sessionId = SessionIdFactory.getSessionId();
 
 					user = userService.productTypes(Integer.parseInt(sessionId), Integer.parseInt(idProduct));
-					
-					productTypes = user.getTypes();
-					id = Integer.parseInt(sessionId);
+					request.setAttribute("types", user.getTypes());
+					request.setAttribute("id_product", idProduct);
 				
 					RequestDispatcher dispatcher = request.getRequestDispatcher(JSPPagePath.PRODUCT_TYPES);
 					dispatcher.forward(request, response);

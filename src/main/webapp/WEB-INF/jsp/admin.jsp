@@ -1,9 +1,12 @@
-<%@ page language="java" contentType="text/html;charset=utf-8"
+<%@page language="java" contentType="text/html;charset=utf-8"
     pageEncoding="utf-8"%>
- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@page import="java.util.Iterator" %>
+<%@page import="java.util.ArrayList" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ 
+<c:set var="testString" value="${requestScope.testString}" />
 
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 		<html>
 <style>
 <%@include file='css/leaflet.css' %>
@@ -12,8 +15,7 @@
 <%@include file='css/style.css' %>
 </style>
 
-
-  			<style>
+<style>
 .center {
     width: 200px; /* Ширина элемента в пикселах */
     padding: 10px; /* Поля вокруг текста */
@@ -106,19 +108,18 @@
 	}
 
 	a {
-	color:#fff;
+	color:#000;
 	cursor: pointer; cursor: hand;
 	}
 
 	a:hover {
-		color:#fff;
+		color:#000;
 		text-decoration:underline;
 	}
-  			</style>
+</style>
 
 
 <body style="background-attachment:fixed;" onload="setTimeout(start,200);">
-
 
 <script>
 var prev_id = 'id0';
@@ -133,17 +134,16 @@ function show_page(id_page)
 <div id=id0></div>
 
 <table id="menu" background="pa/hid00000.png" style="position:absolute; left:2%; width:15%; top:2%; z-index:1; font-size:20;">
-<tr><td class="menu" style="background-color:#2285e8;"><a href onmousedown=show_page('actions');> Редактировать акции</a></td></tr>
-<tr><td class="menu" style="background-color:#6cb44d;"><a href onmousedown=show_page('products');> Редактировать товары </a></td></tr>
-<tr><td class="menu" style="background-color:#f78f4a;"><a href onmousedown=show_page('add_product');> Добавить товар </a></td></tr>
-<tr><td class="menu" style="background-color:#bf689f;"><a href onmousedown=show_page('add_action');> Добавить акцию </a></td></tr>
-<tr><td class="menu" style="background-color:#3fa8ef;"><a href onmousedown=show_page('add_action');> Перезвонить </a></td></tr>
-<tr><td class="menu" style="background-color:#7ff85f;"><a href onmousedown=show_page('add_action');> В корзине </a></td></tr>
+<tr><td class="menu" style="background-color:#2285e8;"><a href onmousedown="show_page('actions');"> Редактировать акции</a></td></tr>
+<tr><td class="menu" style="background-color:#6cb44d;"><a href onmousedown="show_page('products');"> Редактировать товары </a></td></tr>
+<tr><td class="menu" style="background-color:#f78f4a;"><a href onmousedown="show_page('add_product');"> Добавить товар </a></td></tr>
+<tr><td class="menu" style="background-color:#bf689f;"><a href onmousedown="show_page('add_action');"> Добавить акцию </a></td></tr>
+<tr><td class="menu" style="background-color:#3fa8ef;"><a href onmousedown="show_page('add_action');"> Перезвонить </a></td></tr>
+<tr><td class="menu" style="background-color:#7ff85f;"><a href onmousedown="show_page('add_action');"> В корзине </a></td></tr>
 </table>
                 
 
-
-<div  class="center" name=producti ><b>Усе акцii кампанii</b></div>
+<div  class="center" name=producti ><b>${testString} Усе акцii кампанii </b></div>
 
 <table  class=form id=show_actions>
 <tr><td>Акцii:</td><td><div></div></td></tr>
@@ -166,9 +166,8 @@ function show_page(id_page)
 </table>
 
 
-
 <table class=form id=types_show style='display:none'><tr><td>
-<table id=product_types>
+<table >
 <tr><td>Категории:</td><td><div></div></td></tr>
 </table>
 </td><td>
@@ -178,8 +177,65 @@ function show_page(id_page)
 </td><td><a onmousedown="document.getElementById('types_show').style.display='none';">X</a></td></tr>
 </table>
 
-<table class=form id=actions_show style='display:none'><tr><td>
-<table id=product_actions id=actions_show>
+<table class=form id=product_actions style='display:none;position:fixed;top:30%;left:30%;width:40%;height:40%;'>
+<tr><td>Акции товара: </td><td><div></div></td>
+<td>Доступные акции: </td><td><div></div></td>
+<td><i style='display:none;'></i></td>
+<td><button 
+onmousedown='html_action_adder();'>
+Добавить акцию</button>
+<button 
+onmousedown='add_product_action(document.getElementById("product_types").getElementsByTagName("I")[0].innerHTML, document.getElementById("product_types").getElementsByTagName("DIV")[0]);'>
+Сохранить</button></td>
+<td><a onmousedown='document.getElementById("product_actions").style.display="none";'><b>X</b></a></td></tr>
+</table>
+
+<table class=form id=product_types style='display:none;position:fixed;top:20%;left:20%;width:60%;height:60%;'>
+<tr><td>Типы товара:  </td><td><div></div></td>
+<td>Доступные типы: </td><td><div></div></td>
+<td><i style='display:none;'></i></td>
+<td><button 
+onmousedown='html_type_adder();'>
+Добавить акцию</button>
+<button 
+onmousedown='add_product_type(document.getElementById("product_types").getElementsByTagName("I")[0].innerHTML, document.getElementById("product_types").getElementsByTagName("DIV")[0]);'>
+Сохранить</button>
+</td>
+<td><a onmousedown='document.getElementById("product_types").style.display="none";'><b>X</b></a></td></tr>
+</table>
+
+<table class=form id=add style='display:none;position:fixed;top:20%;left:20%;width:60%;height:61%;'>
+<tr><td>
+<div> </div>
+</td><td>
+<a onmousedown='document.getElementById("add").style.display="none";'><b>X</b></a>
+</td></tr>
+</table>
+
+
+<table class=form id=product_update style='display:none;position:fixed;top:20%;left:10%;width:80%;height:60%;'>
+<tr>
+<td>Товар:</td><td><input type=text  maxlength="15" class="textbox"></td></tr><tr>
+<td>Краткий текст: </td><td><input type=text  maxlength="20" class="textbox"></td></tr><tr>
+<td>Большой текст: </td><td><textarea  maxlength="100" class="textbox"></textarea></td></tr><tr>
+<td>Цана: </td><td><input type=text maxlength="7" class="textbox"></td></tr><tr>
+<td>
+<button 
+onmousedown='update_product();'>
+Сохранить</button>
+</td></tr><tr>
+<td><FORM ENCTYPE="multipart/form-data" ACTION="uploadFile" METHOD=POST target=self>
+						Выберите файл:<INPUT NAME="uploadFile" TYPE="file" accept="image/jpeg,image/png">
+						<input type="hidden" name="id_product">
+						<INPUT TYPE="submit" VALUE="Загрузить"></FORM></td>
+<td><a onmousedown='document.getElementById("product_update").style.display="none";'><b>X</b></a></td>
+</tr></table>
+
+
+
+
+<table class=form id=actions_show style='display:none;position:fixed;top:20%;left:20%;width:60%;height:60%;'><tr><td>
+<table>
 <tr><td>Акции:</td><td><div></div></td></tr>
 </table>
 </td><td>
@@ -189,31 +245,26 @@ function show_page(id_page)
 </td><td><a onmousedown="document.getElementById('actions_show').style.display='none';">X</a></td></tr>
 </table>
 
-<div id=product_update style='display:none;'></div>
 
 
-<table class=form id=product_update style='display:none'><tr><td>
-<td>Назва:</td><td><input value='' ></td>
-<td><textarea></textarea></td>
-<td><button onmousedown=update_product();'>
-Абнавiць тавар</button></td>
-<td><button onmousedown='delete_product();'>Удалiць тавар</button></td>
-<td><a onmousedown="document.getElementById('actions_show').style.display='none';">X</a></td></tr>
-</table>
+<table class=form id=add_product style='display:none;position:fixed;top:20%;left:10%;width:80%;height:60%;'>
+<tr>
+<td>Товар:</td><td><input type=text  maxlength="15" class="textbox"></td></tr><tr>
+<td>Краткий текст: </td><td><input type=text  maxlength="20" class="textbox"></td></tr><tr>
+<td>Большой текст: </td><td><textarea  maxlength="100" class="textbox"></textarea></td></tr><tr>
+<td>Цана: </td><td><input type=text maxlength="7" class="textbox"></td></tr><tr>
+<td>
+<button 
+onmousedown='update_product();'>
+Сохранить</button>
+</td></tr><tr>
+<td><FORM ENCTYPE="multipart/form-data" ACTION="uploadFile" METHOD=POST target=self>
+						Выберите файл:<INPUT NAME="uploadFile" TYPE="file" accept="image/jpeg,image/png">
+						<input type="hidden" name="id_product" value="x">
+						<INPUT TYPE="submit" VALUE="Загрузить"></FORM></td>
+<td><a onmousedown='document.getElementById("product_update").style.display="none";'><b>X</b></a></td>
+</tr></table>
 
-<hr>
-<br>
-<div  id=add_product><b>Новы Тавар</b>
-<table class=form>
-<tr><td>Назва</td><td><input value="" placeholder="Название товара" class="textbox" ></td></tr>
-<tr><td>Тэкст</td><td><input value="" placeholder="Опишите товар!" class="textbox" ></td></tr>
-<tr><td><c:out value="${requestScope.selector}"></c:out>
-</td><td><button onmousedown='add_product( 
-  this.parentNode.getElementsByTagName("INPUT")[0].value,
-  this.parentNode.getElementsByTagName("INPUT")[1].value,
-  this.parentNode.getElementsByTagName("SELECT")[0].value,
-  this.parentNode.getElementsByTagName("SELECT")[1].value);'>Новы Тавар</button></td></tr></table>
-</div>
 
 <hr>
 <br>

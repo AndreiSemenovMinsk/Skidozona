@@ -48,7 +48,7 @@ private static final String ID_ACTION_PARAM_NAME = "id_action";
 			Locale current = LocalFactory.getCurrent();				
 			ResourceBundle res = ResourceBundle.getBundle("lang.lang", current);
 			
-			user = userService.addProductAction(Integer.parseInt(sessionId), Integer.parseInt(idProduct),  Integer.parseInt(idAction));
+			user = userService.addProductAction(Integer.parseInt(sessionId), Integer.parseInt(idProduct),  idAction);
 			if (user.getSuccess()) {
 				response.getWriter().print("0");
 			}	else {

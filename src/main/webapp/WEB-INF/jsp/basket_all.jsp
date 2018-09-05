@@ -2,45 +2,40 @@
     pageEncoding="utf-8" %>
 <%@ page import="java.util.Iterator" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.ResourceBundle" %>
+
 <table  class='table_menu' id=korz1>
-<%
-ArrayList<String> shopName = (ArrayList) request.getAttribute("shopName");
-ArrayList<ArrayList<ArrayList<String>>> basketAll = (ArrayList<ArrayList<ArrayList<String>>>) request.getAttribute("basketAll");
-ResourceBundle res = (ResourceBundle) request.getAttribute("res");
-Iterator<ArrayList<ArrayList<String>>> itBasketAll = basketAll.iterator(); 
-int i = 0;
-ArrayList<String> geoLocation = new ArrayList<String>();
 
-while(itBasketAll.hasNext())   
-{	
-						
-	ArrayList<ArrayList<String>> shop = itBasketAll.next();
-	Iterator<ArrayList<String>> it2 = shop.iterator(); 
-%>
-<tr><td><tr><td><%=res.getString("shop") %>:</td><td><%=shopName.get(i)%></td></tr><tr><td>
-<%	while(it2.hasNext())   
-	{
-	ArrayList<String> daoResp = it2.next(); %>
-	<table  id=k<%=i%> onmouseover="poper(<%=i%>);"><tr><td id=korz_dist<%=i%>></td></tr><tr><td>
-	<%=res.getString("shop")%>:</td><td><%=daoResp.get(0) %>
-	</td></tr>
-		<tr><td><%=res.getString("action_name")%>:</td><td><%=daoResp.get(4) %></td></tr></table>
-		
-	<%  geoLocation.add(daoResp.get(2)+",'"+daoResp.get(3)+"','"+daoResp.get(1)+"'");
-	i++;
-	} %>
-	<hr color=green></td></tr>
-	<%
-}%>
+<jsp:useBean class="by.eximer.library.controller.impl.side.BasketAll" id="BasketAll" /> 
+<jsp:setProperty name="BasketAll" property="*"/>
+
+<c:set var="shops_str" value"${BasketAll.shopString}" />
+<c:set var="action_name_str" value"${BasketAll.shopString}" />
+<c:set var="description_str" value"${BasketAll.descriptionString}" />
+<c:set var="shops_arr" value"${BasketAll.basketAll}" />
+<c:set var="shops_name" value"${BasketAll.shopName}" />
+<c:set var="geoLocation" value"${BasketAll.geoLocation}" />
+
+<c:forEach var="shop" items="shops_arr" varStatus="i">
+<tr><td><tr><td>${shops_str}:</td><td>${shops_name[i]}<br><a  id=korz_dist${i}></a></td></tr>
+<tr><td>
+	<c:forEach var="item" items="shop" varStatus="j">
+		<table  id=k${i} onmouseover="poper(${i});">
+			<tr><td>${item[1]}:<br>${item[2]}</td>
+				<td><img src='shop${item[8]}/${item[0]}${item[3]}'></td>
+				<td>${action_name_str}:</td><td>${item[6]}</td>
+				<td>${description_str}:</td><td>${item[4]}</td>
+			</tr>
+		</table>
+	</c:forEach>
+<hr color=green></td></tr>
+</c:forEach>
+
 </table>123@ arr_korz_geo = [
-<%	for(String geo : geoLocation) { %>
-	"["+geo+"],"
-<%  }%>
-	<hr color=green></td></tr>
-	
-
+<c:forEach var="geo_arr" items="geoLocation">
+	[${geo_arr}],
+</c:forEach>
 ]; mapping2(lng, lat, arr_korz_geo, 'korz_dist');
 </table>
+
 
 							

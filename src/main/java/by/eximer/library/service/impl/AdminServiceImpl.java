@@ -31,15 +31,15 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	@Override
-	public User updateProduct(int sessionId, String nazva, String text, String bigText, 
-			int idProduct, String rest, String kategorii, String tipy) throws  ServiceException {
+	public User updateProduct(int sessionId, String name, String text, String bigText, 
+			int idProduct, String cana) throws  ServiceException {
 		
 		User user = null;
 		DAOFactory factory = DAOFactory.getInstance();
 		AdminDAO dao = factory.getAdminDAO();
 		
 		try {
-			user = dao.updateProduct(sessionId, nazva, text, bigText, idProduct, rest, kategorii, tipy);
+			user = dao.updateProduct(sessionId, name, text, bigText, idProduct, cana);
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			throw new ServiceException("message change!!!");
@@ -101,14 +101,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public User addActions(int sessionId) throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public User addProductAction(int sessionId, int idProduct, int idAction) throws ServiceException {
+	public User addProductAction(int sessionId, int idProduct, String idAction) throws ServiceException {
 		User user = null;
 		DAOFactory factory = DAOFactory.getInstance();
 		AdminDAO dao = factory.getAdminDAO();
@@ -123,7 +116,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public User addProductType(int sessionId, int idProduct, int idType) throws ServiceException {
+	public User addProductType(int sessionId, int idProduct, String idType) throws ServiceException {
 		User user = null;
 		DAOFactory factory = DAOFactory.getInstance();
 		AdminDAO dao = factory.getAdminDAO();
@@ -161,6 +154,40 @@ public class AdminServiceImpl implements AdminService{
 		try {
 			user = dao.productActions(sessionId, idProduct);
 		} catch (DAOException e) {
+			throw new ServiceException("message change!!!");
+		}
+		
+		return user;
+	}
+
+	@Override
+	public User fileUpload(int sessionId, int idProduct, String rest) throws ServiceException {
+
+		User user = null;
+		DAOFactory factory = DAOFactory.getInstance();
+		AdminDAO dao = factory.getAdminDAO();
+		
+		try {
+			user = dao.fileUpload(sessionId,  idProduct, rest);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			throw new ServiceException("message change!!!");
+		}
+		
+		return user;
+	}
+
+	@Override
+	public User deleteProduct(int sessionId, int idProduct) throws ServiceException {
+
+		User user = null;
+		DAOFactory factory = DAOFactory.getInstance();
+		AdminDAO dao = factory.getAdminDAO();
+		
+		try {
+			user = dao.deleteProduct(sessionId,  idProduct);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
 			throw new ServiceException("message change!!!");
 		}
 		

@@ -50,8 +50,6 @@ public class Search implements Command{
 			final Logger log = LoggerFactory.getLogger(Search.class); //final Logger log = LogManager.getLogger(BasketAll.class.getName());
 			
 			User user = null;
-			//String goToPage = null;
-			
 			
 			try {
 				String sessionId = SessionIdFactory.getSessionId();
@@ -64,7 +62,7 @@ public class Search implements Command{
 				String str = "<table class='table_menu' id=t1>";
 				
 				int i = 0;
-				int n = 2; // number of columns in response
+				int n = 3; // number of columns in response
 				while(it.hasNext())   
 				{	
 					ArrayList<String> daoResp = it.next();

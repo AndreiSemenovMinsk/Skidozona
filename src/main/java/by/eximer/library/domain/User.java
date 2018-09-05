@@ -127,13 +127,22 @@ public class User {
 		return soundProduct;
 	}
 	
-	private ArrayList<String> akciiName = new ArrayList<String>();
+	private ArrayList<String> actionsName = new ArrayList<String>();
 	public void setActionsName(String string) {
-		this.akciiName.add(string);
+		this.actionsName.add(string);
 	}
 	
 	public ArrayList<String> getActionsName() {
-		return akciiName;
+		return actionsName;
+	}
+	
+	private int idShop;
+	public void setIdShop(int shop) {
+		this.idShop = shop;
+	}
+	
+	public int getIdShop() {
+		return idShop;
 	}
 	
 	private ArrayList<ArrayList<ArrayList<String>>> updateShopActionsProduct = new ArrayList <ArrayList<ArrayList<String>>>();
@@ -165,13 +174,13 @@ public class User {
 		return updateShopProduct;
 	}
 	
-	private ArrayList<ArrayList<String>> akcii = new ArrayList<ArrayList<String>>();
+	private ArrayList<ArrayList<String>> actions = new ArrayList<ArrayList<String>>();
 	public void setActions(ArrayList<String> string) {
-		this.akcii.add(string);
+		this.actions.add(string);
 	}
 	
 	public ArrayList<ArrayList<String>> getActions() {
-		return akcii;
+		return actions;
 	}
 	
 	private ArrayList<ArrayList<String>> types = new ArrayList<ArrayList<String>>();
@@ -213,13 +222,19 @@ public class User {
 
 	private ArrayList<ArrayList<ArrayList<String>>> basketAll = new ArrayList<ArrayList<ArrayList<String>>>();
 	public void setBasketAll(ArrayList<String> string, int index) {
-		
 		try {
 			this.basketAll.get(index).add(string);
 		} catch (IndexOutOfBoundsException e) {
-			
 			ArrayList<ArrayList<String>> empt = new ArrayList<ArrayList<String>>();
-			this.basketAll.add(index, empt);
+			
+			try {
+				this.basketAll.add(index, empt);				
+				} catch (IndexOutOfBoundsException ee) {
+					for (int i = 0; i < index; i++)
+						this.basketAll.add(new ArrayList<ArrayList<String>>());
+					
+					this.basketAll.add(index, empt);	
+				}
 			this.basketAll.get(index).add(string);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -234,20 +249,16 @@ public class User {
 	public void setBookmarks(ArrayList<String> string) {
 		this.bookmarks.add(string);
 	}
-
 	public ArrayList<ArrayList<String>> getBookmarks() {
 		return bookmarks;
 	}
 
 	private ArrayList<ArrayList<ArrayList<String>>> productActions = new ArrayList<ArrayList<ArrayList<String>>>();
-	public void setProductActions(ArrayList<String> string, int index) {
-		
+	public void setProductActions(ArrayList<String> string, int index) {	
 		try {
 			this.productActions.get(index).add(string);
-		} catch (IndexOutOfBoundsException e) {
-			
+		} catch (IndexOutOfBoundsException e) {		
 			ArrayList<ArrayList<String>> empt = new ArrayList<ArrayList<String>>();
-
 			try {
 			this.productActions.add(index, empt);				
 			} catch (IndexOutOfBoundsException ee) {

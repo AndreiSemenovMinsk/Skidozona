@@ -11,10 +11,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/*
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-*/
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import by.eximer.library.controller.Command;
@@ -24,16 +20,24 @@ import by.eximer.library.service.ServiceFactory;
 import by.eximer.library.service.AdminService;
 
 public class Admin implements Command{
+	
+	//private String testString;
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 
 		final Logger log = LoggerFactory.getLogger(Admin.class); //final Logger log = LogManager.getLogger(BasketAll.class.getName());
 		
+		System.out.println("Admin++");
+		
 		
 		ServiceFactory factory = ServiceFactory.getInstance();
 		AdminService userService = factory.getAdminService();
 		User user = null;
+	
+		//testString = "wfdfgf";
+
+		//System.out.println(testString);
 		
 		try {	
 			String sessionId = SessionIdFactory.getSessionId();
@@ -53,6 +57,7 @@ public class Admin implements Command{
 			selector += "</select>";
 			
 			request.setAttribute("selector", selector);
+			request.setAttribute("testString", "okokoko");
 			RequestDispatcher dispatcher = request.getRequestDispatcher(JSPPagePath.ADMIN);
 			dispatcher.forward(request, response);
 			

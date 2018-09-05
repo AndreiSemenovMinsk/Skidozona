@@ -111,8 +111,8 @@ public class SQLSideDAO implements SideDAO {
         {   
         	
 		 try (PreparedStatement statement = connection
-				.prepareStatement("SELECT product.nazva, product.cana, product_buyer.text, "+
-			"product_buyer.radius, actions.text, shop.geo, shop.nazva "+
+				.prepareStatement("SELECT product.id, product.nazva, product.cana, product.rest, product_buyer.text, "+
+			"product_buyer.radius, actions.text, shop.geo, shop.nazva, shop.id, product_buyer.id "+
 			"FROM shop LEFT JOIN actions ON (actions.id_shop=shop.id) "+
 			"LEFT JOIN product_actions ON (actions.id=product_actions.id_actions) "+
 			"LEFT JOIN product ON (product.id=product_actions.id_product) "+
@@ -128,33 +128,35 @@ public class SQLSideDAO implements SideDAO {
 						
 					while (rs.next()) {
 						
-						System.out.println("actionsAll "+rs.getString(4));
-						
 						int i = 0; 
-						ArrayList<String> shopName = new ArrayList<String>();
+						ArrayList<String> shopId = new ArrayList<String>();
 						boolean cont = true;
-						for (String name : shopName) {
-							if (name == rs.getString(2))
+						for (String name : shopId) {
+							if (name == rs.getString(10))
 							{
 								cont = false;
 								break;
 							}
 							i++;
 						}
-						
-						if (cont) {
-							shopName.add(rs.getString(2));
-							user.setShopName(rs.getString(2));
+											
+						if (cont) {			
+							shopId.add(rs.getString(10));
+							user.setShopName(rs.getString(9));
 						}
 						
-						ArrayList<String> stringList = new ArrayList<String>();
-						stringList.add(rs.getString(1)); //product.nazva 
-						stringList.add(rs.getString(2)); //product.cana
-						stringList.add(rs.getString(3)); //product_buyer.text
-						stringList.add(rs.getString(4)); //product_buyer.radius
-						stringList.add(rs.getString(5)); //actions.text
-						stringList.add(rs.getString(6)); //shop.geo
-						stringList.add(rs.getString(7)); //shop.nazva
+						ArrayList<String> stringList = new ArrayList<String>();	
+						stringList.add(rs.getString(1)); //product.id           0
+						stringList.add(rs.getString(2)); //product.nazva 		1
+						stringList.add(rs.getString(3)); //product.cana			2
+						stringList.add(rs.getString(4)); //product.rest			3
+						stringList.add(rs.getString(5)); //product_buyer.text	4
+						stringList.add(rs.getString(6)); //product_buyer.radius	5
+						stringList.add(rs.getString(7)); //actions.text			6
+						stringList.add(rs.getString(8)); //shop.geo				7
+						stringList.add(rs.getString(9)); //shop.nazva			8
+						stringList.add(rs.getString(10)); //shop.id				9
+						stringList.add(rs.getString(11)); //product_buyer.id	10
 										
 						user.setUpdateActions(stringList, i);
 					}
@@ -179,8 +181,8 @@ public class SQLSideDAO implements SideDAO {
         try (Connection connection = conPool.takeConnection()) {   
            
         	try (PreparedStatement statement = connection
-					.prepareStatement("SELECT product.nazva, product.cana, product_buyer.text, "+
-							"product_buyer.radius, actions.text, shop.geo, shop.nazva "+
+					.prepareStatement("SELECT product.id, product.nazva,  product.cana, product.rest, product_buyer.text, "+
+							"product_buyer.radius, actions.text, shop.geo, shop.nazva, shop.id "+
 							"FROM shop LEFT JOIN actions ON (actions.id_shop=shop.id) "+
 							"LEFT JOIN product_actions ON (actions.id=product_actions.id_actions) "+
 							"LEFT JOIN product ON (product.id=product_actions.id_product) "+
@@ -197,10 +199,10 @@ public class SQLSideDAO implements SideDAO {
 					while (rs.next()) 
 					{		
 						int i = 0; 
-						ArrayList<String> shopName = new ArrayList<String>();
+						ArrayList<String> shopId = new ArrayList<String>();
 						boolean cont = true;
-						for (String name : shopName) {
-							if (name == rs.getString(4))
+						for (String name : shopId) {
+							if (name == rs.getString(10))
 							{
 								cont = false;
 								break;
@@ -209,18 +211,20 @@ public class SQLSideDAO implements SideDAO {
 						}
 											
 						if (cont) {			
-							shopName.add(rs.getString(4));
-							user.setShopName(rs.getString(4));
+							shopId.add(rs.getString(10));
+							user.setShopName(rs.getString(9));
 						}
 						
-						ArrayList<String> stringList = new ArrayList<String>();					
-						stringList.add(rs.getString(1)); //product.nazva 
-						stringList.add(rs.getString(2)); //product.cana
-						stringList.add(rs.getString(3)); //product_buyer.text
-						stringList.add(rs.getString(4)); //product_buyer.radius
-						stringList.add(rs.getString(5)); //actions.text
-						stringList.add(rs.getString(6)); //shop.geo
-						stringList.add(rs.getString(7)); //shop.nazva
+						ArrayList<String> stringList = new ArrayList<String>();	
+						stringList.add(rs.getString(1)); //product.id           0
+						stringList.add(rs.getString(2)); //product.nazva 		1
+						stringList.add(rs.getString(3)); //product.cana			2
+						stringList.add(rs.getString(4)); //product.rest			3
+						stringList.add(rs.getString(5)); //product_buyer.text	4
+						stringList.add(rs.getString(6)); //product_buyer.radius	5
+						stringList.add(rs.getString(7)); //actions.text			6
+						stringList.add(rs.getString(8)); //shop.geo				7
+						stringList.add(rs.getString(10)); //shop.id				8
 						
 						user.setBasketAll(stringList, i);
 					}
@@ -234,6 +238,54 @@ public class SQLSideDAO implements SideDAO {
         } 
 		return user;
 	}
+	
+
+	@Override
+	public User bookmarksAll(int sessionId) throws DAOException {
+											
+		User user = null;		
+        ConnectionPool conPool = ConnectionPool.getInstance();   //ConnectionPool jdbc = new ConnectionPool();
+        try (Connection connection = conPool.takeConnection()) {   
+        	try (PreparedStatement statement = connection
+					.prepareStatement("SELECT product.id, product.nazva, product.cana, product.rest, "+
+					"bookmarks.id, bookmarks.radius, shop.geo, shop.nazva, shop.id "+
+					"FROM shop LEFT JOIN product ON shop.id=product.id_shop LEFT JOIN bookmarks ON (product.id=bookmarks.id_product)"+
+					" LEFT JOIN passwords ON (bookmarks.id_buyer=passwords.user_id) WHERE passwords.session_id=?"))
+        	{
+			
+				statement.setInt(1, sessionId);
+				try (ResultSet rs = statement.executeQuery())
+				{
+				user = new User();
+	
+					while (rs.next()) {
+						System.out.println("bookmark "+rs.getString(1));
+						ArrayList<String> stringList = new ArrayList<String>();
+						
+						stringList.add(rs.getString(1));//product.id		0
+						stringList.add(rs.getString(2));//product.nazva		1
+						stringList.add(rs.getString(3));//product.cana		2	
+						stringList.add(rs.getString(4));//product.rest		3
+						stringList.add(rs.getString(5));//bookmarks.id		4
+						stringList.add(rs.getString(6));//bookmarks.radius	5
+						stringList.add(rs.getString(7));//shop.geo			6
+						stringList.add(rs.getString(8));//shop.nazva		7
+						stringList.add(rs.getString(9));//shop.id			8
+						
+						user.setBookmarks(stringList);		
+					}
+				}
+        	}
+		} catch (InterruptedException | SQLException e) {
+			log.error("SQLUserDAO bookmarks:"+e);
+			throw new DAOException("message foe change", e);			
+		} catch(Exception e) {
+			log.error("SQLUserDAO bookmarks:"+e);
+            e.printStackTrace();
+        } 
+		return user;
+	}
+	
 	
 	@Override
 	public User inBasket(int sessionId, int idProduct, String text) throws DAOException {
@@ -305,49 +357,6 @@ public class SQLSideDAO implements SideDAO {
 			throw new DAOException("message foe change", e);			
 		} catch(Exception e) {
 			log.error("SQLUserDAO inBookmarks:"+e);
-            e.printStackTrace();
-        } 
-		return user;
-	}
-	
-	@Override
-	public User bookmarksAll(int sessionId) throws DAOException {
-											
-		User user = null;		
-        ConnectionPool conPool = ConnectionPool.getInstance();   //ConnectionPool jdbc = new ConnectionPool();
-        try (Connection connection = conPool.takeConnection()) {   
-        	try (PreparedStatement statement = connection
-					.prepareStatement("SELECT product.nazva, product.text, product.cana, bookmarks.id, bookmarks.radius, shop.geo, shop.nazva "+
-					"FROM shop LEFT JOIN product ON shop.id=product.id_shop LEFT JOIN bookmarks ON product.id=bookmarks.id_product LEFT JOIN passwords "+
-					" ON bookmarks.id_buyer=passwords.user_id WHERE passwords.session_id=?"))
-        	{
-			
-				statement.setInt(1, sessionId);
-				try (ResultSet rs = statement.executeQuery())
-				{
-				user = new User();
-	
-					while (rs.next()) {
-						System.out.println("bookmark "+rs.getString(1));
-						ArrayList<String> stringList = new ArrayList<String>();
-						
-						stringList.add(rs.getString(1));
-						stringList.add(rs.getString(2));
-						stringList.add(rs.getString(3));
-						stringList.add(rs.getString(4));				
-						stringList.add(rs.getString(5));
-						stringList.add(rs.getString(6));
-						stringList.add(rs.getString(7));
-						
-						user.setBookmarks(stringList);		
-					}
-				}
-        	}
-		} catch (InterruptedException | SQLException e) {
-			log.error("SQLUserDAO bookmarks:"+e);
-			throw new DAOException("message foe change", e);			
-		} catch(Exception e) {
-			log.error("SQLUserDAO bookmarks:"+e);
             e.printStackTrace();
         } 
 		return user;

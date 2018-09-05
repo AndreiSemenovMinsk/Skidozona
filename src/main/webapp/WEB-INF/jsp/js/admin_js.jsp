@@ -52,17 +52,19 @@ function createObject() {
 		if(http.readyState == 4)
 		{                      
 			resp = http.responseText.trim();
-			alert(resp);
+			console.log(resp);
 			arr_resp = resp.split('@');
 
 			if (arr_resp[0] == 'tru')
 			{                                    
 			document.getElementById('products').getElementsByTagName('DIV')[0].innerHTML = arr_resp[1];
-			document.getElementById('types').getElementsByTagName('DIV')[0].innerHTML = arr_resp[2];
-			document.getElementById('actions').getElementsByTagName('DIV')[0].innerHTML = arr_resp[3];
+						console.log('products'+ arr_resp[1]);
+			document.getElementById('product_types').getElementsByTagName('DIV')[1].innerHTML = arr_resp[2];
+						console.log('product_types'+ arr_resp[2]);
+			document.getElementById('product_actions').getElementsByTagName('DIV')[1].innerHTML = arr_resp[3];
+						console.log('product_actions'+ arr_resp[3]);
 			}
-
-			sound();
+			//sound(); new
 		}
 	}
 
@@ -76,16 +78,21 @@ function createObject() {
 	{
 		if(http.readyState == 4)
 		{           
+			resp = http.responseText.trim();
+			console.log(resp);
+			arr_resp = resp.split('@');
+			
 			if (arr_resp[0] == 'tru')
-			{
+			{		console.log(document.getElementById('product_actions'));
 				document.getElementById('product_actions').getElementsByTagName('DIV')[0].innerHTML = arr_resp[1];
-				document.getElementById('actions_show').style.display='none';
+				document.getElementById('product_actions').getElementsByTagName('I')[0].innerHTML = arr_resp[2];
+				document.getElementById('product_actions').style.display='block';
 			}
 		}
 	}
 	function product_types(id_product)
 	{
-	http.open('get', 'http://localhost:8159/Eximer/Controller?command=product_actions&id_product='+id_product);
+	http.open('get', 'http://localhost:8159/Eximer/Controller?command=product_types&id_product='+id_product);
 	http.onreadystatechange =  product_types_resp;
 	http.send(null);
 	}
@@ -93,10 +100,15 @@ function createObject() {
 	{
 		if(http.readyState == 4)
 		{          
+			resp = http.responseText.trim();
+			console.log(resp);
+			arr_resp = resp.split('@');
+			
 			if (arr_resp[0] == 'tru')
-			{
+			{	console.log(document.getElementById('product_types'));
 			document.getElementById('product_types').getElementsByTagName('DIV')[0].innerHTML = arr_resp[1];
-			document.getElementById('types_show').style.display='none';
+			document.getElementById('product_types').getElementsByTagName('I')[0].innerHTML = arr_resp[2];
+			document.getElementById('product_types').style.display='block';
 			}
 		}
 	}
@@ -104,6 +116,7 @@ function createObject() {
 	
 	function start()
 	{          
+		alert('http://localhost:8159/Eximer/Controller?command=admin_shop');
 	http.open('get', 'http://localhost:8159/Eximer/Controller?command=admin_shop');
 	http.onreadystatechange =  admin_shop_resp;
 	http.send(null);
@@ -122,75 +135,64 @@ function createObject() {
 	
 	function product_update_show(id_product)
 	{
+		console.log('product'+id_product);
+		
 		var div = document.getElementById('product_update');
 		var obj = document.getElementById('product'+id_product);
-		div.style.display = 'block';
-		div.getElemensByTagName('INPUT')[0].value = obj.getElemensByTagName('A')[0].innerHTML;
-		div.getElemensByTagName('INPUT')[1].value = obj.getElemensByTagName('A')[1].innerHTML;
-		div.getElemensByTagName('TEXTAREA')[0].value = obj.getElemensByTagName('A')[2].innerHTML;
-	}
-	
-	function product_update(id_product, obj)
-	{
-		http.open('get', 'http://localhost:8159/Eximer/Controller?command=product_update&id_product='+id_product);
-		http.onreadystatechange =  product_update_resp;
-		http.send(null);
-	}
-	
-	function product_update_resp()
-	{
 		
+		console.log(obj);
+		console.log(div);
+		
+		div.style.display = 'block';
+		div.getElementsByTagName('INPUT')[0].value = obj.getElementsByTagName('A')[0].innerHTML; 
+		div.getElementsByTagName('INPUT')[1].value = obj.getElementsByTagName('A')[1].innerHTML;
+		div.getElementsByTagName('TEXTAREA')[0].value = obj.getElementsByTagName('A')[2].innerHTML;
+		div.getElementsByTagName('INPUT')[2].value = obj.getElementsByTagName('A')[3].innerHTML;
+		div.getElementsByTagName('INPUT')[4].value = id_product;
 	}
 	
-	function update_product(rest, obj, id_product)  //id_product, name, categories, tipy, text, rest, big_text
-	{                          
-	console.log(obj.parentNode.parentNode.getElementsByTagName("FORM")[0]);
+	function update_product()  //id_product, name, categories, tipy, text, rest, big_text
+	{                      
+		var obj = document.getElementById('product_update');
+		
+		var name = obj.getElementsByTagName("INPUT")[0].value; 
+		var text = obj.getElementsByTagName("INPUT")[1].value;
+		var big_text = obj.getElementsByTagName("TEXTAREA")[0].value;	
+		var cana = obj.getElementsByTagName("INPUT")[2].value;
+		var id_product = obj.getElementsByTagName("INPUT")[4].value;
 	
-	if (obj.parentNode.parentNode.getElementsByTagName("FORM")[0].getElementsByTagName("INPUT")[0].value!="") 
-		rest=obj.parentNode.parentNode.getElementsByTagName("FORM")[0].getElementsByTagName("INPUT")[0].value.substr(-4);
-	
-	console.log(obj.parentNode.parentNode.getElementsByClassName("select_actions")[0]);
+			console.log('http://localhost:8159/Eximer/Controller?command=update_product&name='+name
+					+'&id_product='+id_product+'&text='+text+'&big_text='+big_text+'&cana='+cana);
 			
-	str_actions=""; 
-	for (var i = 0; i < obj.parentNode.parentNode.getElementsByClassName("select_actions")[0].getElementsByTagName("P").length; i++) 
-	   str_actions += obj.parentNode.parentNode.getElementsByClassName("select_actions")[0].getElementsByTagName("P")[i].getAttribute("id")+","; 
-	
-	str_actions = str_actions.slice(0,-1); 
-	
-	str_tipy=""; 
-	
-	console.log(obj.parentNode.parentNode.getElementsByClassName("select_tipy")[0]);
-	
-	for (i = 0; i < obj.parentNode.parentNode.getElementsByClassName("select_tipy")[0].getElementsByTagName("P").length; i++) 
-		str_tipy += obj.parentNode.parentNode.getElementsByClassName("select_tipy")[0].getElementsByTagName("P")[i].getAttribute("id")+","; 
-	
-	str_tipy = str_tipy.slice(0,-1);  
-	
-			name = obj.parentNode.parentNode.getElementsByTagName("INPUT")[1].value;
-			text = obj.parentNode.parentNode.getElementsByTagName("INPUT")[0].value; 
-			big_text = obj.parentNode.parentNode.getElementsByTagName("TEXTAREA")[0].value;		
-	
-			console.log(obj.parentNode.parentNode.getElementsByTagName("FORM")[0].getElementsByTagName('INPUT')[0].value );
-			
-			if (obj.parentNode.parentNode.getElementsByTagName("FORM")[0].getElementsByTagName('INPUT')[0].value != '')
-			obj.parentNode.parentNode.getElementsByTagName("FORM")[0].submit();
-			
-	
-			console.log('http://localhost:8159/Eximer/Controller?command=update_product&categories='+
-					str_actions+'&tipy='+str_tipy+'&name='+name+'&id_product='+id_product+'&text='+text+'&rest='+rest+'&big_text='+big_text);
-			
-	http.open('get', 'http://localhost:8159/Eximer/Controller?command=update_product&actions='+
-			str_actions+'&tipy='+tipy+'&categories='+categories+'&name='+name+'&id_product='+id_product+'&text='+text+'&rest='+rest+'&big_text='+big_text);
+	http.open('get', 'http://localhost:8159/Eximer/Controller?command=update_product&name='+name
+			+'&id_product='+id_product+'&text='+text+'&big_text='+big_text+'&cana='+cana);
 
-	http.onreadystatechange =  add;
+	http.onreadystatechange =  reload_product_resp;
 	http.send(null);
 	}
+	
 	function delete_product(id_product)
 	{
-	http.open('get', 'http://localhost:8159/Eximer/Controller?command=delete_product&id_product='+id_product);
-	http.onreadystatechange =  add;
-	http.send(null);
+		if (confirm('Действительно удалить?'))
+			{
+			http.open('get', 'http://localhost:8159/Eximer/Controller?command=delete_product&id_product='+id_product);
+			http.onreadystatechange =  reload_product_resp;
+			http.send(null);
+			}
+		else
+			{
+			alert('Удаление отменено!');
+			}
 	}
+	
+	function reload_product_resp()
+	{
+		if(http.readyState == 4)
+		{         
+			start();
+		}
+	}
+	
 	function add_actions()
 	{
 	http.open('get', 'http://localhost:8159/Eximer/Controller?command=add_actions&exp='+exp+'&publ='+publ);
@@ -198,47 +200,124 @@ function createObject() {
 	http.send(null);
 	}
 	
-	function add_product_action(id_product, id_actions)
+	function add_product_action(id_product, el)
 	{
-	http.open('get', 'http://localhost:8159/Eximer/Controller?command=add_product_action&id_product='+id_product+'&id_action='+id_action);
+		str_actions=""; 
+		for (var i = 0; i < el.getElementsByTagName("P").length; i++) 
+		   str_actions += el.getElementsByTagName("P")[i].getAttribute("id")+","; 
+		
+		str_actions = str_actions.slice(0,-1); 
+		
+	http.open('get', 'http://localhost:8159/Eximer/Controller?command=add_product_action&id_product='+id_product+'&id_action='+str_actions);
 	http.onreadystatechange =  add;
 	http.send(null);
 	}
-	function add_product_type(id_product, id_type)
+	function add_product_type(id_product, el)
 	{
-	http.open('get', 'http://localhost:8159/Eximer/Controller?command=add_product_type&id_product='+id_product+'&id_type='+id_type);
+		str_types=""; 
+		for (var i = 0; i < el.getElementsByTagName("P").length; i++) 
+		   str_types += el.getElementsByTagName("P")[i].getAttribute("id")+"-"; 
+		
+		str_types = str_types.slice(0,-1); 
+		
+		console.log('add_product_type');
+		console.log(str_types);
+		
+	http.open('get', 'http://localhost:8159/Eximer/Controller?command=add_product_type&id_product='+id_product+'&id_type='+str_types);
 	http.onreadystatechange =  add;
 	http.send(null);
 	}
-	
-	
-	
+		
 	function add()
 	{
 		if(http.readyState == 4)
-		{           console.log(http.responseText);
-		document.getElementById('add').innerHTML = http.responseText;
+		{         
+			console.log(document.getElementById('add'));
+			console.log(document.getElementById('add').getElementsByTagName('DIV')[0]);
+			
+		document.getElementById('add').getElementsByTagName('DIV')[0].innerHTML = http.responseText;
+		document.getElementById('add').style.display = 'block';
 		}
 	}
 
-	function add_kategory (el)
+	
+	function html_action_adder()
 	{
-		for (i = 0 ; i < el.getElementsByTagName("OPTION").length; i++)
+		el = document.getElementById('product_actions').getElementsByTagName('SELECT')[0];
+		val = '';
+		
+		console.log(el.getElementsByTagName("OPTION").length); 
+		
+		for (var i = 0 ; i < el.getElementsByTagName("OPTION").length; i++)
 		{
+			console.log( el.getElementsByTagName("OPTION")[i].value +'=='+ el.value);
+			
 		if (el.getElementsByTagName("OPTION")[i].value == el.value)
 		val = el.getElementsByTagName("OPTION")[i].innerHTML;
+		}
+		
+		if (document.getElementById('product_actions').getElementsByTagName('DIV')[0].getElementsByTagName('P').length > 2)
+		{
+		alert('Возможно добавить не более 3-х акций!');
+		}
+		
+		for (var i = 0; i < document.getElementById('product_actions').getElementsByTagName('DIV')[0].getElementsByTagName('P').length; i++)
+		{
+			if (el.value == document.getElementById('product_actions').getElementsByTagName('DIV')[0].getElementsByTagName('P')[i].getAttribute('id'))
+				{
+				alert('Такая акция существует!');
+				return;
+				}
 		}
 
 		p = document.createElement('p');
 		a = document.createElement('a');
 		p.innerHTML = val;
-		a.innerHTML = "X";
+		a.innerHTML = " <b>X</b>";
 		p.setAttribute('id', el.value);
 		a.onmousedown = function () {this.parentNode.parentNode.removeChild(this.parentNode);}
 		p.appendChild(a);
-		el.parentNode.appendChild(p);
+		document.getElementById('product_actions').getElementsByTagName('DIV')[0].appendChild(p);
 	}
 
+	function html_type_adder()
+	{
+		el = document.getElementById('product_types').getElementsByTagName('SELECT')[0];
+		val = '';
+		
+		for (var i = 0; i < el.getElementsByTagName("OPTION").length; i++)
+		{
+		if (el.getElementsByTagName("OPTION")[i].value == el.value)
+		val = el.getElementsByTagName("OPTION")[i].innerHTML;
+		}
+		
+		if (document.getElementById('product_types').getElementsByTagName('DIV')[0].getElementsByTagName('P').length > 2)
+			{
+			alert('Возможно добавить не более 3-х типов!');
+			return;
+			}
+		
+		for (var i = 0; i < document.getElementById('product_types').getElementsByTagName('DIV')[0].getElementsByTagName('P').length; i++)
+		{
+			if (el.value == document.getElementById('product_types').getElementsByTagName('DIV')[0].getElementsByTagName('P')[i].getAttribute('id'))
+				{
+				alert('Такой тип существует!');
+				return;
+				}
+		}
+
+		p = document.createElement('p');
+		a = document.createElement('a');
+		p.innerHTML = val;
+		a.innerHTML = " <b>X</b>";
+		p.setAttribute('id', el.value);
+		a.onmousedown = function () {this.parentNode.parentNode.removeChild(this.parentNode);}
+		p.appendChild(a);
+		document.getElementById('product_types').getElementsByTagName('DIV')[0].appendChild(p);
+	}
+	
+	
+	
 	function add_tipy (el)
 	{
 		for (i = 0 ; i < el.getElementsByTagName("OPTION").length; i++)
@@ -275,8 +354,10 @@ function createObject() {
             }
       }
 //////////////////////////////////////////////////
+var divs_hide = ['add', 'product_actions', 'product_types'];
 
 
+/*
         function update_shops()
 {
 http.open('get', 'http://localhost:8159/Eximer/Controller?command=update_shops');
@@ -291,9 +372,7 @@ function update_shops_resp()
 	}
 }
 
-
-
-       var hide_divs_to;
+var hide_divs_to;
 
  window.onmousedown = function()
       {
@@ -310,6 +389,7 @@ var registraciya = false;
        		registraciya = false;
       	//qr_req
       }
+*/
 /////////////////////////////////////////////////////////
 
 function PlaySound(soundObj) {

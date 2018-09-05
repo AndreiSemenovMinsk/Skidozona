@@ -7,29 +7,37 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import by.eximer.library.controller.impl.side.BasketAll;
+import by.eximer.library.dao.DAOFactory;
+import by.eximer.library.dao.SideDAO;
+import by.eximer.library.service.SideService;
+import by.eximer.library.service.exeption.ServiceException;
+import by.eximer.library.service.impl.SideServiceImpl;
 
 class BasketAllImplTest {
 
-  private static BasketAll basketAll;
-  //private static UserDao userDao;
+  private static SideService sideService;
+  private static SideDAO sideDao;
 
   @BeforeAll
   public static void setup() {
-	  basketAll = Mockito.mock(BasketAll.class);
-    //userService = new UserServiceImpl(userDao);
+	  sideDao = Mockito.mock(SideDAO.class);
+	  sideService = new SideServiceImpl();
+	  
+	  DAOFactory factory = DAOFactory.getInstance();
+	  sideDao = factory.getSideDAO();
   }
 
   @AfterEach
   public void reset() {
-    Mockito.reset(basketAll);
+    Mockito.reset(sideService);
   }
 
   @Test
-  public void exceptionFlow() {
+  public void exceptionFlow() throws ServiceException {
     final String errorMessage = "unknown error";
-    Mockito.doThrow(new RuntimeException(errorMessage)).when(basketAll).deleteUser(1L);
+    Mockito.doThrow(new RuntimeException(errorMessage)).when(sideService).basketAll(111);
     try {
-    	basketAll.deleteUserById(1L);
+    	sideService.basketAll(111);
       Assertions.fail("expected exception");
     } catch ( IllegalArgumentException e ) {
       Assertions.assertEquals(errorMessage, e.getMessage());
@@ -37,14 +45,14 @@ class BasketAllImplTest {
   }
 
   @Test
-  public void successfulFlow() {
+  public void successfulFlow() throws ServiceException {
     //userService.deleteUserById(1L);
-    Mockito.verify(basketAll).deleteUser(1L);
+    Mockito.verify(sideService).basketAll(111);
   }
 
   @Test
   public void invalidFlow() {
     //userService.deleteUserById(0L);
-    Mockito.verifyZeroInteractions(basketAll);
+    Mockito.verifyZeroInteractions(sideService);
   }
 }

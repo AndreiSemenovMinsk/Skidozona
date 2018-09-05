@@ -11,7 +11,10 @@ import by.eximer.library.controller.impl.admin.AddProductType;
 import by.eximer.library.controller.impl.admin.Admin;
 import by.eximer.library.controller.impl.admin.AdminShop;
 import by.eximer.library.controller.impl.admin.DeleteProduct;
+import by.eximer.library.controller.impl.admin.ProductActions;
+import by.eximer.library.controller.impl.admin.ProductTypes;
 import by.eximer.library.controller.impl.admin.Sound;
+import by.eximer.library.controller.impl.admin.UpdateProduct;
 import by.eximer.library.controller.impl.deal.Approve;
 import by.eximer.library.controller.impl.deal.Approved;
 import by.eximer.library.controller.impl.deal.Refuse;
@@ -20,8 +23,10 @@ import by.eximer.library.controller.impl.search.Menu;
 import by.eximer.library.controller.impl.search.Search;
 import by.eximer.library.controller.impl.search.SearchCategories;
 import by.eximer.library.controller.impl.side.ActionsAll;
+import by.eximer.library.controller.impl.side.ActionsRadius;
 import by.eximer.library.controller.impl.side.BasketAll;
 import by.eximer.library.controller.impl.side.BookmarksAll;
+import by.eximer.library.controller.impl.side.BookmarksRadius;
 import by.eximer.library.controller.impl.side.InBasket;
 import by.eximer.library.controller.impl.side.InBookmarks;
 import by.eximer.library.controller.impl.user.Register;
@@ -59,6 +64,8 @@ class CommandProvider {
 		commands.put(CommandName.ACTIONS_ALL, new ActionsAll());
 		commands.put(CommandName.IN_BASKET, new InBasket());
 		commands.put(CommandName.IN_BOOKMARKS, new InBookmarks());
+		commands.put(CommandName.ACTIONS_RADIUS, new ActionsRadius());
+		commands.put(CommandName.BOOKMARKS_RADIUS, new BookmarksRadius());
 		
 		//DealServiceImpl
 		commands.put(CommandName.APPROVE, new Approve());
@@ -74,7 +81,9 @@ class CommandProvider {
 		commands.put(CommandName.ADMIN_SHOP, new AdminShop());
 		commands.put(CommandName.ADMIN, new Admin());
 		commands.put(CommandName.SOUND, new Sound());
-		
+		commands.put(CommandName.PRODUCT_ACTIONS, new ProductActions());
+		commands.put(CommandName.PRODUCT_TYPES, new ProductTypes());
+		commands.put(CommandName.UPDATE_PRODUCT, new UpdateProduct());
 		
 		commands.put(CommandName.LOCAL_LENG, new LocalLeng());
 		commands.put(CommandName.SARAFAN_LOGIN, new SarafanLogin());		

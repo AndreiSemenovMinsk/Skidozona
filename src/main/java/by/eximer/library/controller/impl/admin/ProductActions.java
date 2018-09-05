@@ -30,10 +30,8 @@ import by.eximer.library.service.exeption.ServiceException;
 */
 
 public class ProductActions implements Command {
-	private static final String ID_PRODUCT = "id_product";
 	
-	public ArrayList<ArrayList<String>> productActions;
-	public int id;
+	private static final String ID_PRODUCT = "id_product";
 	
 		@Override
 		public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -51,11 +49,10 @@ public class ProductActions implements Command {
 					String sessionId = SessionIdFactory.getSessionId();
 
 					user = userService.productActions(Integer.parseInt(sessionId), Integer.parseInt(idProduct));
-					
-					productActions = user.getActions();	
-					id = Integer.parseInt(sessionId);
+					request.setAttribute("actions", user.getActions());
+					request.setAttribute("id_product", idProduct);
 				
-					RequestDispatcher dispatcher = request.getRequestDispatcher(JSPPagePath.PRODUCT_TYPES);
+					RequestDispatcher dispatcher = request.getRequestDispatcher(JSPPagePath.PRODUCT_ACTIONS);
 					dispatcher.forward(request, response);
 			} catch (ServiceException e) {
 				log.error("ServiceException AdminShop.java:"+e);

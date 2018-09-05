@@ -11,9 +11,6 @@ public interface AdminDAO {
 	User addProduct(int sessionId, int idShop, String tipy, String nazva, String text,
 			String bigText, String rest, String kategorii) throws DAOException;
 
-	User updateProduct(int sessionId, String name, String text, String bigText, int idProduct, String rest,
-			String categories, String tipy) throws DAOException;
-
 	User deleteProduct(int sessionId, int idProduct) throws DAOException;
 
 	User myPlace(int sessionId, String latLeng) throws DAOException;
@@ -32,8 +29,14 @@ public interface AdminDAO {
 
 	User productTypes(int sessionId, int productId) throws DAOException;
 
-	User addProductAction(int sessionId, int idProduct, int idActions) throws DAOException;
+	User addProductAction(int sessionId, int idProduct, String idActions) throws DAOException;
 	
-	User addProductType(int sessionId, int idProduct, int idType) throws DAOException;
+	User addProductType(int sessionId, int idProduct, String idType) throws DAOException;
 
+	User updateProduct(int sessionId, String name, String text, String bigText, int idProduct, String cana)
+			throws DAOException;
+
+	User fileUpload(int sessionId, int idProduct, String rest) throws DAOException;
+
+	boolean belongProduct(int sessionId, int idProduct) throws DAOException;
 }

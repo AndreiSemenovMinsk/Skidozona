@@ -1,5 +1,8 @@
 package by.eximer.library.controller.impl.admin;
 
+import by.eximer.library.domain.User;
+import by.eximer.library.service.AdminService;
+import by.eximer.library.service.ServiceFactory;
 import by.eximer.library.service.SessionIdFactory;
 import java.io.File;
 import java.io.IOException;
@@ -23,18 +26,21 @@ import org.slf4j.LoggerFactory;
 /**
  * A Java servlet that handles file upload from client.
  *
- * @author www.codejava.net
+ * @author Андрей Семёнов
  */
 public class FileUploadServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
      
+    ServiceFactory factory = ServiceFactory.getInstance();
+	AdminService userService = factory.getAdminService();	
+	User user = null; 
     // location to store file uploaded
     private static final String UPLOAD_DIRECTORY = "c:/Users/andrei/eclipse-workspace/Eximer/src/main/webapp/shops/";
- 
-    // upload settings
+    //private static final String UPLOAD_DIRECTORY = "";//src/main/webapp/shops/
+    
     private static final int MEMORY_THRESHOLD   = 1024 * 1024 * 3;  // 3MB
-    private static final int MAX_FILE_SIZE      = 1024 * 1024 * 4; // 40MB
-    private static final int MAX_REQUEST_SIZE   = 1024 * 1024 * 5; // 50MB
+    private static final int MAX_FILE_SIZE      = 1024 * 1024 * 4; // 4MB
+    private static final int MAX_REQUEST_SIZE   = 1024 * 1024 * 5; // 5MB
  
     final Logger log = LoggerFactory.getLogger(FileUploadServlet.class); //
     /**
@@ -67,42 +73,22 @@ public class FileUploadServlet extends HttpServlet {
         // sets maximum size of request (include file + form data)
         upload.setSizeMax(MAX_REQUEST_SIZE);
  
-        // constructs the directory path to store upload file
-        // this path is relative to application's directory
-        /*String uploadPath = "d:/eclipse"+//"c:/Users/andrei/eclipse-workspace/Library/WebContent/shops"+			//getServletContext().getRealPath("")
-                File.separator + UPLOAD_DIRECTORY;
-        
-         System.out.println("uploadPath"+uploadPath);
-        */ 
-        // creates the directory if it does not exist
-        
-        
- 
         try {
         	String sessionId = SessionIdFactory.getSessionId();
-            // parses the request's content to extract file data
+            
+        	int shopId;
+        	String idProduct = null;
         	
-        	String shopId = null;
-        	String productId = null;
-        	
-        	//String id = request.getParameter("id");
-        	//System.out.println("id"+id);
-        	//id = getValue(request.getPart("id"));
-        	
-            //@SuppressWarnings("unchecked")
             List<FileItem> formItems = upload.parseRequest(request);
  
             if (formItems != null && formItems.size() > 0) {
-                // iterates over form's fields
+                
                 for (FileItem item : formItems) {
-                    // processes only fields that are not form fields
-                   	
+                    
                     	switch (item.getFieldName()) {
-                    	case "id_shop": 
-                    		shopId = item.getString();
-                        break;
+                    	
                     	case "id_product": 
-                    		productId = item.getString();
+                    		idProduct = item.getString();
                         break;
                     	}           
                 }
@@ -116,7 +102,11 @@ public class FileUploadServlet extends HttpServlet {
 	                    
 	                    String[] arr = fileName.split("\\.");
 	                    
-	                    System.out.println(shopId+"&"+productId);
+	                    user = userService.fileUpload(Integer.parseInt(sessionId), Integer.parseInt(idProduct), arr[arr.length-1]);
+	                    
+	                    shopId = user.getIdShop();
+	                    
+	                    System.out.println(shopId+"&"+idProduct);
 	                    String uploadPath = UPLOAD_DIRECTORY +shopId;
 	                    
 	                    System.out.println("uploadPath"+uploadPath);
@@ -124,21 +114,31 @@ public class FileUploadServlet extends HttpServlet {
 	                    File uploadDir = new File(uploadPath);
 	                    
 	                    System.out.println(uploadDir.exists());
+	                    System.out.println(uploadDir.getAbsolutePath());
+	                    System.out.println(uploadDir.getCanonicalPath());
+	                    System.out.println(uploadDir.getPath());
+	                    
 	                    
 	                    if (!uploadDir.exists()) {
 	                        uploadDir.mkdir();
 	                    }
 	                    
-	                    
-	                    String filePath = uploadPath + File.separator+ productId+ "." + arr[1]; //;
+	                    String filePath = uploadPath + File.separator+ idProduct+ "." + arr[1]; //
 	                    System.out.println(filePath);
 	                    
 	                    File storeFile = new File(filePath);
 	
 	                    System.out.println("filePath"+filePath);
 	                    
-	                    // saves the file on disk
+	                    
 	                    item.write(storeFile);
+	                    
+	            		
+	            		if (user.getSuccess()) {
+	            			response.getWriter().print("0");
+	            		}	else {
+	            			response.getWriter().print("1");
+	            		}
 	                    request.setAttribute("message",
 	                        "FileUploadServlet has been done successfully!");
 	                } 
